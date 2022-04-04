@@ -4,7 +4,7 @@ body {
   font-family: Inter, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #7700ee;
+  background-color: #8a0000;
   color: #fff;
   overflow-x: hidden;
 }
@@ -64,22 +64,30 @@ h1 {
 .member-page > div {
   display: flex;
   flex-direction: row;
-  width: 100%;
   text-align: left;
   gap: 2rem;
 }
 .member-page > div > div {
   display: flex;
   flex-direction: column;
-  width: 50%;
-  gap: 1rem;
+  flex: 1;
 }
+
+.proposals-wrapper {
+  max-height: 50vh;
+  overflow: auto;
+  padding: 0 8px 8px 8px;
+}
+
 @media screen and (max-width: 768px) {
   .member-page > div {
     flex-direction: column;
   }
   .member-page > div > div {
     width: 100%;
+  }
+  .proposals-wrapper {
+    max-height: revert;
   }
 }
 
@@ -97,7 +105,7 @@ h1 {
 
 .member-page form h5 {
   margin-top: 0;
-  color: #7700ee;
+  color: #8a0000;
 }
 
 .member-page form .card > div {

@@ -1,6 +1,8 @@
 import {
+  ChainId,
   useAddress,
   useMetamask,
+  useNetwork,
   useToken,
   useVote,
 } from "@thirdweb-dev/react";
@@ -17,6 +19,7 @@ const App = () => {
   const connectWithMetamask = useMetamask();
   const voteModule = useVote(VOTING_CONTRACT_ADDRESS);
   const tokenModule = useToken(GOV_TOKEN_ADDRESS);
+  const network = useNetwork();
 
   const { hasClaimedNFT, mintNft, checkIfUserHasVoted } = useWalletContext();
   const { data: memberList } = useDAOMemberTokenAmounts();
@@ -68,6 +71,18 @@ const App = () => {
         <button onClick={connectWithMetamask} className="btn-hero">
           Connect your wallet
         </button>
+      </div>
+    );
+  }
+
+  if (network?.[0].data.chain.id !== ChainId.Rinkeby) {
+    return (
+      <div className="unsupported-network">
+        <h2>Please connect to Rinkeby</h2>
+        <p>
+          This dapp only works on the Rinkeby network, please switch networks in
+          your connected wallet.
+        </p>
       </div>
     );
   }
@@ -194,44 +209,48 @@ const App = () => {
                 }
               }}
             >
-              {proposals.map((proposal, index) => {
-                const proposalWasVoted = !proposal.votes.every((vote) =>
-                  vote.count.isZero()
-                );
-                return (
-                  <div key={proposal.proposalId} className="card">
-                    <h5>{proposal.description}</h5>
-                    <div>
-                      {proposal.votes.map((vote) => (
-                        <div key={vote.type}>
-                          <input
-                            type="radio"
-                            id={proposal.proposalId + "-" + vote.type}
-                            name={proposal.proposalId}
-                            value={vote.type}
-                            disabled={proposalWasVoted || proposal.state !== 1}
-                            //default the "abstain" vote to chedked
-                            defaultChecked={
-                              (proposalWasVoted && !vote.count.isZero()) ||
-                              (!proposalWasVoted && vote.type === 2)
-                            }
-                          />
-                          <label
-                            htmlFor={proposal.proposalId + "-" + vote.type}
-                          >
-                            {vote.label}
-                          </label>
-                        </div>
-                      ))}
+              <div className="proposals-wrapper">
+                {proposals.map((proposal, index) => {
+                  const proposalWasVoted = !proposal.votes.every((vote) =>
+                    vote.count.isZero()
+                  );
+                  return (
+                    <div key={proposal.proposalId} className="card">
+                      <h5>{proposal.description}</h5>
+                      <div>
+                        {proposal.votes.map((vote) => (
+                          <div key={vote.type}>
+                            <input
+                              type="radio"
+                              id={proposal.proposalId + "-" + vote.type}
+                              name={proposal.proposalId}
+                              value={vote.type}
+                              disabled={
+                                proposalWasVoted || proposal.state !== 1
+                              }
+                              //default the "abstain" vote to chedked
+                              defaultChecked={
+                                (proposalWasVoted && !vote.count.isZero()) ||
+                                (!proposalWasVoted && vote.type === 2)
+                              }
+                            />
+                            <label
+                              htmlFor={proposal.proposalId + "-" + vote.type}
+                            >
+                              {vote.label}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
               <button disabled={isVoting || hasVoted} type="submit">
                 {isVoting
                   ? "Voting..."
                   : hasVoted
-                  ? "You Already Voted"
+                  ? "You Already Voted All Proposals"
                   : "Submit Votes"}
               </button>
               <small>
