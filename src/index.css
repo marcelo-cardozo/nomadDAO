@@ -57,6 +57,10 @@ h1 {
   text-align: center;
 }
 
+.member-page {
+  padding-bottom: 32px;
+}
+
 .member-page > div {
   display: flex;
   flex-direction: row;
