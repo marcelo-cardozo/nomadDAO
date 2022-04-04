@@ -1,9 +1,10 @@
-# buildspace x thirdweb - Build your own DAO with just Javascript
+# buildspace x thirdweb - Build your own DAO with just Javascript - nomadDAO
 
-### **Welcome 👋**
+![Screenshot](images/screenshot.png)
 
-To get started with this course, clone this repo and follow these commands:
+This project uses thirdweb to handle the deployment of the following:
 
-1. Run `npm install` at the root of your directory
-2. Run `npm start` to start the project
-3. Start coding!
+- Edition Drop Contract to allow multiple users to mint the required NFT to access the main page of nomadDAO
+- ERC20 Token used as the nomadDAO Governance Token
+- Airdrop governance token to NFT holders
+- Voting contract to allow NFT holders to vote on proposals or create new ones
